@@ -205,7 +205,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // ── SPA FALLBACK ──────────────────────────────────────────────────
-app.get('/{*path}', (req, res) => {
+app.get('*', (req, res) => {
   const loginPage = path.join(__dirname, 'public', 'index.html');
   if (fs.existsSync(loginPage)) res.sendFile(loginPage);
   else res.status(404).send('Not found');
