@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BONPRIX — Connexion</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#2B2EAA;--blue2:#1a1d7a;--yellow:#FFC20E;--yellowD:#7a5c00;--red:#EE1C25;--blueL:#E8E9F8;}
+body{font-family:'Nunito Sans',sans-serif;min-height:100vh;background:var(--blue);display:flex;align-items:center;justify-content:center;padding:20px;}
+
+/* Background pattern */
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle at 20% 20%, rgba(255,194,14,.08) 0%, transparent 50%),radial-gradient(circle at 80% 80%, rgba(255,194,14,.06) 0%, transparent 50%);pointer-events:none;}
+
+.login-box{background:white;border-radius:20px;padding:48px 40px;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.35);}
+
+/* Logo */
+.logo-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:8px;}
+.bee-wrap svg{width:52px;height:52px;}
+.brand{font-family:'Nunito',sans-serif;font-size:32px;font-weight:900;color:var(--blue);letter-spacing:-1px;}
+.brand span{color:var(--yellow);}
+.tagline{text-align:center;font-size:13px;color:#888;margin-bottom:32px;font-weight:600;}
+
+/* Form */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.field input{width:100%;padding:12px 16px;border:2px solid var(--blueL);border-radius:10px;font-size:15px;font-family:'Nunito Sans',sans-serif;color:#1a1a1a;outline:none;transition:border-color .2s;}
+.field input:focus{border-color:var(--yellow);}
+.field input::placeholder{color:#bbb;}
+
+.btn-login{width:100%;padding:14px;background:var(--blue);color:var(--yellow);border:none;border-radius:10px;font-family:'Nunito',sans-serif;font-size:16px;font-weight:900;cursor:pointer;transition:all .2s;margin-top:8px;letter-spacing:.03em;}
+.btn-login:hover{background:var(--blue2);transform:translateY(-1px);}
+.btn-login:active{transform:translateY(0);}
+.btn-login:disabled{opacity:.6;cursor:default;transform:none;}
+
+.error-msg{background:#fdeaea;border:1px solid #f5b8b8;color:var(--red);border-radius:8px;padding:10px 14px;font-size:13px;font-weight:600;margin-bottom:16px;display:none;}
+.error-msg.show{display:block;}
+
+/* Role badges */
+.roles-hint{margin-top:28px;border-top:1px solid var(--blueL);padding-top:20px;}
+.roles-title{font-size:11px;font-weight:800;color:#aaa;text-transform:uppercase;letter-spacing:.07em;margin-bottom:10px;text-align:center;}
+.roles-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+.role-pill{text-align:center;padding:6px 4px;border-radius:8px;background:var(--blueL);}
+.role-pill .rname{font-size:11px;font-weight:800;color:var(--blue);display:block;}
+.role-pill .rdesc{font-size:9px;color:#888;margin-top:2px;}
+.role-pill.admin-pill{background:#FFF8E1;} .role-pill.admin-pill .rname{color:var(--yellowD);}
+.role-pill.sup-pill{background:#e8f5e9;} .role-pill.sup-pill .rname{color:#1a7a3a;}
+</style>
+</head>
+<body>
+<div class="login-box">
+  <div class="logo-row">
+    <div class="bee-wrap">
+      <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="50" cy="58" rx="28" ry="22" fill="#FFC20E"/>
+        <rect x="38" y="50" width="24" height="5" rx="2" fill="#2B2EAA" opacity=".75"/>
+        <rect x="38" y="60" width="24" height="5" rx="2" fill="#2B2EAA" opacity=".75"/>
+        <ellipse cx="50" cy="36" rx="16" ry="13" fill="#FFC20E"/>
+        <ellipse cx="42" cy="33" rx="5" ry="6" fill="white"/>
+        <ellipse cx="58" cy="33" rx="5" ry="6" fill="white"/>
+        <ellipse cx="42" cy="34" rx="3" ry="3.5" fill="#2B2EAA"/>
+        <ellipse cx="58" cy="34" rx="3" ry="3.5" fill="#2B2EAA"/>
+        <path d="M30 45 Q18 30 20 20 Q30 25 35 42" fill="white" opacity=".9"/>
+        <path d="M70 45 Q82 30 80 20 Q70 25 65 42" fill="white" opacity=".9"/>
+        <circle cx="44" cy="44" r="2.5" fill="#EE1C25"/>
+      </svg>
+    </div>
+    <div class="brand">BON<span>PRIX</span></div>
+  </div>
+  <div class="tagline">Suivi des Expéditions — Avril 2026</div>
+
+  <div class="error-msg" id="errMsg"></div>
+
+  <div class="field">
+    <label>Identifiant</label>
+    <input type="text" id="username" placeholder="Votre identifiant" autocomplete="username" autofocus/>
+  </div>
+  <div class="field">
+    <label>Mot de passe</label>
+    <input type="password" id="password" placeholder="Votre mot de passe" autocomplete="current-password"/>
+  </div>
+  <button class="btn-login" id="loginBtn" onclick="doLogin()">Se connecter</button>
+
+  <div class="roles-hint">
+    <div class="roles-title">Niveaux d'accès</div>
+    <div class="roles-grid">
+      <div class="role-pill admin-pill"><span class="rname">Admin</span><div class="rdesc">Accès total + gestion utilisateurs</div></div>
+      <div class="role-pill sup-pill"><span class="rname">Superviseur</span><div class="rdesc">Modifier et valider</div></div>
+      <div class="role-pill"><span class="rname">Consultation</span><div class="rdesc">Lecture seule</div></div>
+    </div>
+  </div>
+</div>
+
+<script>
+async function doLogin(){
+  const username=document.getElementById('username').value.trim();
+  const password=document.getElementById('password').value;
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('errMsg');
+  err.classList.remove('show');
+  if(!username||!password){err.textContent='Veuillez remplir tous les champs.';err.classList.add('show');return;}
+  btn.disabled=true;btn.textContent='Connexion...';
+  try{
+    const r=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+    const data=await r.json();
+    if(!r.ok){err.textContent=data.error||'Identifiants incorrects';err.classList.add('show');return;}
+    localStorage.setItem('bp_token',data.token);
+    localStorage.setItem('bp_user',JSON.stringify(data.user));
+    window.location.href='/app.html';
+  }catch{
+    err.textContent='Erreur de connexion au serveur.';err.classList.add('show');
+  }finally{btn.disabled=false;btn.textContent='Se connecter';}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+// Redirect if already logged in
+const tok=localStorage.getItem('bp_token');
+if(tok) fetch('/api/auth/me',{headers:{'Authorization':'Bearer '+tok}}).then(r=>{if(r.ok)window.location.href='/app.html';});
+</script>
+</body>
+</html>
